@@ -28,12 +28,12 @@ var Monitor = function () {
 Monitor.prototype.init = function () {
     var me = this;
 
-   me.mpInit();
+    me.mpInit();
 
 }
 
 Monitor.prototype._subscribe = function () {
-     var me = this;
+    var me = this;
 
     //  MQ订阅
     // window.parent.JDMC.subscribe("monitorservice", window.parent.MessageType.MONITOR_SERVICE, function (data) {
@@ -49,84 +49,84 @@ Monitor.prototype._subscribe = function () {
     //调用mock方法模拟数据
     Mock.mock(
         'http://mockjs', {
-            data:{
-                mpInfo:{
-                    "cpuUsage|1-50":100,
-                    "MpcpuUsage|1-50":100,
-                    "cpuSpeed|1-100":100,
-                    "processSum|1-100":100,
-                    "systemRuntime":"@date('yyyy-MM-dd hh:ss')",
-                    "memoryTotal|1-100":100,
-                    "memoryUsage|1-100":100,
-                    "MpmemoryUsage|1-100":100,
-                    "usedHD|1-100":100,
-                    "totalHD|1-100":100,
-                    "diskTotal|1-100":100,
-                    "inSize|1-50":100,
-                    "outSize|50-100":100,
-                    "ipAddr|1-100":100
+            data: {
+                mpInfo: {
+                    "cpuUsage|1-50": 100,
+                    "MpcpuUsage|1-50": 100,
+                    "cpuSpeed|1-100": 100,
+                    "processSum|1-100": 100,
+                    "systemRuntime": "@date('yyyy-MM-dd hh:ss')",
+                    "memoryTotal|1-100": 100,
+                    "memoryUsage|1-100": 100,
+                    "MpmemoryUsage|1-100": 100,
+                    "usedHD|1-100": 100,
+                    "totalHD|1-100": 100,
+                    "diskTotal|1-100": 100,
+                    "inSize|1-50": 100,
+                    "outSize|50-100": 100,
+                    "ipAddr|1-100": 100
                 },
                 redisInfo: {
-                    "ipAddr":"192.168.1.1", //ip
-                    "version":100,	//版本
-                    "tcpPort":100,	//端口
-                    "archBits":100,	//位数 64或32
-                    "processId":100,	//进程ID
-                    "secondTime":100,	//启动时长 秒
-                    "connectedClients|1-100":100,	//连接客户端数
-                    "blockedClients|1-100":100,	//阻塞客户端数
-                    "hitRate|1-100":100, //命中率
-                    "usedMemory|1-100":100,	//使用内存 	Mb
-                    "commandsps|1-100":100,	//每秒处理次数
+                    "ipAddr": "192.168.1.1", //ip
+                    "version": 100, //版本
+                    "tcpPort": 100, //端口
+                    "archBits": 100, //位数 64或32
+                    "processId": 100, //进程ID
+                    "secondTime": 100, //启动时长 秒
+                    "connectedClients|1-100": 100, //连接客户端数
+                    "blockedClients|1-100": 100, //阻塞客户端数
+                    "hitRate|1-100": 100, //命中率
+                    "usedMemory|1-100": 100, //使用内存 	Mb
+                    "commandsps|1-100": 100, //每秒处理次数
                 },
                 mysqlInfo: {
-                    "ipAddr":"192.168.1.1", //ip
-                    "version":100,	//版本
-                    "tcpPort":100,	//端口
-                    "archBits":100,	//位数 64或32
-                    "processId":100,	//进程ID
-                    "secondTime":100,	//启动时长 秒
-                    "connectedClients|1-100":100,	//连接客户端数
-                    "blockedClients|1-100":100,	//阻塞客户端数
-                    "hitRate|1-100":100, //命中率
-                    "usedMemory|1-100":100,	//使用内存 	Mb
-                    "commandsps|1-100":100,	//每秒处理次数
+                    "ipAddr": "192.168.1.1", //ip
+                    "version": 100, //版本
+                    "tcpPort": 100, //端口
+                    "archBits": 100, //位数 64或32
+                    "processId": 100, //进程ID
+                    "secondTime": 100, //启动时长 秒
+                    "connectedClients|1-100": 100, //连接客户端数
+                    "blockedClients|1-100": 100, //阻塞客户端数
+                    "hitRate|1-100": 100, //命中率
+                    "usedMemory|1-100": 100, //使用内存 	Mb
+                    "commandsps|1-100": 100, //每秒处理次数
                 },
                 mqInfo: {
-                    total:100,//总数
-                    surplus:66,//总剩余数
-                    mqlist:[{
-                        name:'test', //消息队列名称
-                        surplus:'188',//队列剩余数
-                        consume:'22',//消费者数
-                        out:'44'//出队数
-                    },{
-                        name:'test1', //消息队列名称
-                        surplus:'188',//队列剩余数
-                        consume:'22',//消费者数
-                        out:'44'//出队数
+                    total: 100, //总数
+                    surplus: 66, //总剩余数
+                    mqlist: [{
+                        name: 'test', //消息队列名称
+                        surplus: '188', //队列剩余数
+                        consume: '22', //消费者数
+                        out: '44' //出队数
+                    }, {
+                        name: 'test1', //消息队列名称
+                        surplus: '188', //队列剩余数
+                        consume: '22', //消费者数
+                        out: '44' //出队数
                     }]
                 }
             }
         }
     );
-     //ajax请求
-     me.timer1 = setInterval(function() {
+    //ajax请求
+    me.timer1 = setInterval(function () {
         $.ajax({
-            url: "http://mockjs",    //请求的url地址
-            dataType: "json",   //返回格式为json
+            url: "http://mockjs", //请求的url地址
+            dataType: "json", //返回格式为json
             async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-            data: {},    //参数值
-            type: "GET",   //请求方式
+            data: {}, //参数值
+            type: "GET", //请求方式
             beforeSend: function () {
                 //请求前的处理
             },
             success: function (data) {
                 //请求成功时处理
-                me.mpMonitor.data = data.data.mpInfo?data.data.mpInfo:"";
-                me.mqMonitor.data = data.data.mqInfo?data.data.mqInfo:"";
-                me.redisMonitor.data = data.data.redisInfo?data.data.redisInfo:""
-                me.mysqlMonitor.data = data.data.mysqlInfo?data.data.mysqlInfo:""
+                me.mpMonitor.data = data.data.mpInfo ? data.data.mpInfo : "";
+                me.mqMonitor.data = data.data.mqInfo ? data.data.mqInfo : "";
+                me.redisMonitor.data = data.data.redisInfo ? data.data.redisInfo : ""
+                me.mysqlMonitor.data = data.data.mysqlInfo ? data.data.mysqlInfo : ""
             },
             complete: function () {
                 //请求完成的处理
@@ -135,7 +135,7 @@ Monitor.prototype._subscribe = function () {
                 //请求出错处理
             }
         });
-    },1000) 
+    }, 1000)
 }
 
 /**
@@ -148,18 +148,18 @@ Monitor.prototype.event = function () {
     $("#mpServer").click(function () {
         clearInterval(me.mpMonitor.timer);
         me.mpInit();
-        
+
     })
     $("#apiServer").click(function () {
         // clearInterval(me.apiMonitor.timer);
         me.apiInit();
-        
+
     })
 
     $("#mqServer").click(function () {
         clearInterval(me.mqMonitor.timer);
         me.mqInit();
-        
+
     })
 
     $("#databaseServer").click(function () {
@@ -187,7 +187,7 @@ Monitor.prototype.mpInit = function () {
  *Api监控初始化
  *
  */
-Monitor.prototype.apiInit = function() {
+Monitor.prototype.apiInit = function () {
     var me = this;
     var tpl = _.template($('#apiTpl').text())();
     $('#particular').html(tpl);

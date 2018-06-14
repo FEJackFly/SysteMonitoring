@@ -28,10 +28,6 @@ var Monitor = function () {
 Monitor.prototype.init = function () {
     var me = this;
 
-    //默认加载mp
-    // me.redisInit();
-    // me.redisMonitor.init();
-   // me.mpMonitor();
    me.mpInit();
 
 }

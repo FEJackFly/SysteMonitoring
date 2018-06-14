@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>服务监控</title>
+    <script src="js/include.js"></script>
+    <script src="resources/echart/echarts.min.js"></script>
+    <script src="js/dark.js"></script>
+    <style>
+        .redisview {
+            background-color: orange !important;
+        }
+
+        .mysqlview {
+            background-color: #990066 !important;
+        }
+
+        .col-xs-1,
+        .col-sm-1,
+        .col-md-1,
+        .col-lg-1,
+        .col-xs-2,
+        .col-sm-2,
+        .col-md-2,
+        .col-lg-2,
+        .col-xs-3,
+        .col-sm-3,
+        .col-md-3,
+        .col-lg-3,
+        .col-xs-4,
+        .col-sm-4,
+        .col-md-4,
+        .col-lg-4,
+        .col-xs-5,
+        .col-sm-5,
+        .col-md-5,
+        .col-lg-5,
+        .col-xs-6,
+        .col-sm-6,
+        .col-md-6,
+        .col-lg-6,
+        .col-xs-7,
+        .col-sm-7,
+        .col-md-7,
+        .col-lg-7,
+        .col-xs-8,
+        .col-sm-8,
+        .col-md-8,
+        .col-lg-8,
+        .col-xs-9,
+        .col-sm-9,
+        .col-md-9,
+        .col-lg-9,
+        .col-xs-10,
+        .col-sm-10,
+        .col-md-10,
+        .col-lg-10,
+        .col-xs-11,
+        .col-sm-11,
+        .col-md-11,
+        .col-lg-11,
+        .col-xs-12,
+        .col-sm-12,
+        .col-md-12,
+        .col-lg-12 {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        #monitoringCards {
+            padding-bottom: 12px;
+            height: 150px;
+        }
+
+        .view-header {
+            min-height: 29px;
+        }
+
+        .panel {
+            border-radius: 5px;
+        }
+
+        .small {
+            color: #fff
+        }
+
+        .progress-small,
+        .progress-small .progress-bar {
+            height: 5px;
+        }
+
+        .progress {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .full .progress-bar-warning {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 0;
+        }
+
+        .card {
+            transform: rotateZ(0deg);
+            transition: transform 1s;
+            position: relative;
+            z-index: 2
+        }
+
+        .card:hover {
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+        }
+
+        .back {
+            position: absolute;
+            top: 0px;
+            z-index: 0
+        }
+
+        .filp .back {
+            z-index: 4
+        }
+
+        .titleTh {
+            text-align: left !important;
+            color: #fff !important;
+            font-size: 14px !important;
+            padding-left: 5px !important;
+        }
+
+        #particular {
+            height: calc(100% - 150px);
+            overflow: hidden;
+        }
+
+        #detile {
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Wrapper-->
+    <div class="wrapper" style="height:100%">
+        <div id="monitoringCards" class="row">
+            <div id="mpServer" class="col-lg-2 col-xs-6">
+                <div class="card panel panel-filled" style="background-color:#2C97DF">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-server" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                MP服务器性能
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </div>
+
+
+            <div id="apiServer" class="card col-lg-2 col-xs-6">
+                <div class="panel panel-filled" style="background-color:#85B546">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-sitemap" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                API接口监控
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mqServer" class="card col-lg-2 col-xs-6">
+                <div class="panel panel-filled" style="background-color:#E76C3A">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-rss-square" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                MQ服务器性能
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="databaseServer" class="card col-lg-2 col-xs-6">
+                <div class="panel panel-filled" style="background-color:#990066">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-server" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                MySql
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="redisServer" class="card col-lg-2 col-xs-6">
+                <div class="panel panel-filled" style="background-color:#FF9900">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-database" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                REDIS
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-lg-2 col-xs-6">
+                <div class="panel panel-filled" style="background-color:#CD3E4A">
+                    <div class="panel-body">
+                        <div class="media">
+                            <span class="pull-left" style="font-size:40px;color:#fff">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            </span>
+
+                            <div class="media-body" style="line-height: 55px;color: #fff;font-size: 16px;">
+                                日志
+                            </div>
+                        </div>
+                        <div class="small">磁盘占用空间</div>
+                        <div class="small">
+                            <i class="fa fa-hdd-o"></i>
+                            <span class="animate-number" data-value="394" data-animation-duration="1600">394GB</span>
+                        </div>
+                        <div class="progress m-t-xs full progress-small">
+                            <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class=" progress-bar progress-bar-warning">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="particular">
+
+        </div>
+
+
+    </div>
+    <!-- MP模版 -->
+    <script type="text/template" id="dynamicTpl">
+        <div id="detile" class="row" style="height:100%">
+            <div class="col-md-2" style="height:100%">
+                <div class="row">
+                    <div class="panel panel-filled">
+                        <div class="panel-heading">
+                            <div class="clearfix table-tool">
+                                <span style="float:left;color:#fff;display:block;">MP进程性能监控</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="height: calc(50% - 30px);">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div id="main4" style="width:100%; height:100%"></div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:10px;height: calc(50% - 30px);">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div id="main5" style="width:100%; height:100%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10" style="height:100%">
+                <div class="row">
+                    <div class="panel panel-filled">
+                        <div class="panel-heading">
+                            <div class="clearfix table-tool">
+                                <span style="float:left;color:#fff;display:block;">MP服务器性能监控</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="height: calc(50% - 30px);">
+                    <div class="col-md-6" style="height:100%">
+                        <div class="panel panel-filled h100">
+                            <div class="col-md-4">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTh">
+                                                <i class="fa fa-desktop" aria-hidden="true"></i>&nbsp&nbsp CPU</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>利用率</td>
+                                            <td class="text-right">
+                                                <span class="c-accent">
+                                                    <span class="cpuUsage">19</span>%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>速度</td>
+                                            <td class="cpuSpeed text-right">2.96 Ghz</td>
+                                        </tr>
+                                        <tr>
+                                            <td>进程</td>
+                                            <td class="text-right">
+                                                <span class="processSum c-accent"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>运行时间</td>
+                                            <td class="text-right">
+                                                <span class="systemRuntime"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-8 h100">
+                                <div id="main" style="width:100%; height:100%"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="height:100%">
+                        <div class="panel panel-filled h100">
+                            <div class="col-md-4">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTh">
+                                                <i class="fa fa-database" aria-hidden="true"></i>&nbsp&nbsp 内存</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>使用中</td>
+                                            <td class="text-right">
+                                                <span>2.95 GB</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>可用</td>
+                                            <td class="text-right">2.46 GB</td>
+                                        </tr>
+                                        <tr>
+                                            <td>缓存</td>
+                                            <td class="text-right">
+                                                <span>2 GB</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-8 h100">
+                                <div id="main1" style="width:100%; height:100%"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:10px;height: calc(50% - 30px);">
+                    <div class="col-md-6" style="height:100%">
+                        <div class="panel panel-filled h100">
+                            <div class="col-md-4">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTh">
+                                                <i class="fa fa-print" aria-hidden="true"></i>&nbsp&nbsp 磁盘</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>已使用</td>
+                                            <td class="text-right">
+                                                <span class="usage1 c-accent">56 GB</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>未使用</td>
+                                            <td class="text-right">200GB</td>
+                                        </tr>
+                                        <tr>
+                                            <td>容量</td>
+                                            <td class="text-right">
+                                                <span class="usage11 c-accent">256 GB</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-8 h100">
+                                <div id="main2" style="width:100%; height:100%"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="height:100%">
+                        <div class="panel panel-filled h100">
+                            <div class="col-md-4">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="titleTh">
+                                                <i class="fa fa-rss-square" aria-hidden="true"></i>&nbsp&nbsp 以太网</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>IP地址</td>
+                                            <td class="text-right">192.168.1.1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>发送</td>
+                                            <td class="text-right">4.1 Mbps
+                                                <i class="fa fa-level-up text-warning"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>接收</td>
+                                            <td class="text-right">488 kbps
+                                                <i class="fa fa-level-down c-white"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>运行时间</td>
+                                            <td class="text-right">
+                                                <span class="time"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-8 h100">
+                                <div id="main3" style="width:100%; height:100%"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </script>
+    <!-- API模板 -->
+    <script type="text/template" id="apiTpl">
+        <div class="wrapper" style="height:100%">
+            <div class="row" style="height: 60%; padding-top: 10px;">
+                <div class="col-md-8" style="height: 100%;">
+                    <div class="panel panel-filled" style="height: 100%;">
+                        <div class="panel-body" style="height: 100%;">
+                            <div id="main" style="width:100%; height:100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" style="height: 100%;">
+                    <div class="panel panel-filled" style="height: 100%;">
+                        <div class="panel-body" style="height: 100%;">
+                            <div id="main1" style="width:100%; height:100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="height: 40%;padding-top: 10px;">
+                <div class="col-md-8" style="height: 100%;">
+                    <div class="panel panel-filled" style="height: 100%;">
+                        <div class="clearfix table-tool">
+                            <span style="float:left;color:#fff;display:block;">HTTP请求列表</span>
+                        </div>
+                        <div id="apiTableHeight" class="panel-body" style="height: calc(100% - 20px)">
+                            <table id="apitable"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" style="height: 100%;">
+                    <div class="panel panel-filled" style="height: 100%;">
+                        <div class="clearfix table-tool">
+                            <span style="float:left;color:#fff;display:block;">HTTP请求详情</span>
+                        </div>
+                        <div class="panel-body" style="height: calc(100% - 20px)">
+                            <div id="main2" style="width:100%; height:100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </script>
+    <!-- MQ模版 -->
+    <script type="text/template" id="mqTpl">
+        <div id="detile" class="row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-filled ">
+                        <div class="panel-heading">
+                            <div class="clearfix table-tool">
+                                <span style="float:left;color:#fff;display:block;">MQ监控</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height:40%">
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div class="row" style="padding-top:10px">
+
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">50%</div>
+                                            <h2 class="m-b-none server1">CPU 状态</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">50%</div>
+                                            <h2 class="m-b-none server2">内存 状态</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">50%</div>
+                                            <h2 class="m-b-none server3">硬盘状态</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">运行时间</div>
+                                            <h2 class="m-b-none server4">3888小时</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>>
+                </div>
+
+                <div class="col-md-8" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+
+            </div>
+            <div class="row" style="margin-top:10px;height:47%">
+                <div class="col-md-12" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <table id="table"></table>
+                        </div>
+                    </div>>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- MySQL模版 -->
+    <script type="text/template" id="database">
+        <div id="detile" class="row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-filled ">
+                        <div class="panel-heading">
+                            <div class="clearfix table-tool">
+                                <span style="float:left;color:#fff;display:block;">MySql监控</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height:40%">
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div class="row" style="padding-top:10px">
+
+                                <div class="col-xs-6">
+                                    <div class="mysqlview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">IP地址</div>
+                                            <h2 class="m-b-none server1">192.168.1.1</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="mysqlview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">端口号</div>
+                                            <h2 class="m-b-none server2">8080</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <div class="mysqlview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">版本</div>
+                                            <h2 class="m-b-none server3">1.1.1</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="mysqlview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">启动时间</div>
+                                            <h2 class="m-b-none server4">3888小时</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>>
+                </div>
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart1" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+
+            </div>
+            <div class="row" style="margin-top:10px;height:47%">
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart2" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart3" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart4" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- Redis模版 -->
+    <script type="text/template" id="redisTpl">
+        <div id="detile" class="row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-filled ">
+                        <div class="panel-heading">
+                            <div class="clearfix table-tool">
+                                <span style="float:left;color:#fff;display:block;">Redis监控</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="height:40%">
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div class="row" style="padding-top:10px">
+
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">IP地址</div>
+                                            <h2 class="m-b-none server1">192.168.1.1</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">端口号</div>
+                                            <h2 class="m-b-none server2">8080</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+
+                                        <div class="panel-body">
+                                            <div class="small">版本</div>
+                                            <h2 class="m-b-none server3">1.1.1</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="redisview panel panel-filled">
+                                        <div class="panel-body">
+                                            <div class="small">启动时间</div>
+                                            <h2 class="m-b-none server4">3888小时</h2>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>>
+                </div>
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart1" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+
+            </div>
+            <div class="row" style="margin-top:10px;height:47%">
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart2" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart3" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+                <div class="col-md-4" style="height:100%">
+                    <div class="panel panel-filled" style="height:100%">
+                        <div class="panel-body" style="height:100%">
+                            <div id="chart4" style="height:100%"></div>
+                        </div>
+                    </div>>
+                </div>
+            </div>
+        </div>
+    </script>
+
+
+    <script src="js/mock.js"></script>
+    <!-- mp监控模块 -->
+    <script src="monitorModel/mpMonitor.js"></script>
+    <!-- API监控模板 -->
+    <script src="monitorModel/apiMonitor.js"></script>
+    <!-- mq监控模块 -->
+    <script src="monitorModel/mqMonitor.js"></script>
+    <!-- mysql监控模块 -->
+    <script src="monitorModel/MySqlMonitor.js"></script>
+    <!-- Redis监控模块 -->
+    <script src="monitorModel/RedisMonitor.js"></script>
+
+    <!-- 监控服务控制 -->
+    <script src="monitor.js"></script>
+
+</body>
+
+</html>

@@ -1,10 +1,6 @@
 !(function () {
     $(function () {
         var monitor = new Monitor;
-
-        
-
-       
     });
 })();
 
